@@ -1,0 +1,28 @@
+{
+  "name": "@lifeomic/eslint-plugin-i18next",
+  "version": "0.0.0",
+  "description": "An ESLint plugin for validating i18next usage",
+  "main": "index.js",
+  "repository": "git@github.com:lifeomic/eslint-plugin-i18next.git",
+  "author": "LifeOmic <development@lifeomic.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "eslint . && prettier --check .",
+    "test": "jest",
+    "build": "node build.js"
+  },
+  "devDependencies": {
+    "@lifeomic/eslint-config-standards": "^1.2.1",
+    "@lifeomic/jest-config": "^1.0.2",
+    "@lifeomic/typescript-config": "^1.0.1",
+    "@types/eslint": "^7.28.1",
+    "@types/jest": "^27.0.2",
+    "eslint": "^7.32.0",
+    "glob": "^7.2.0",
+    "jest": "^27.3.1",
+    "jest-circus": "^27.3.1",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4"
+  }
+}
