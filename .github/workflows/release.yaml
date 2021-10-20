@@ -19,6 +19,12 @@ jobs:
           yarn lint
           yarn test
           yarn build
+      - name: '[TEMPORARY] Modify Package Access'
+        env:
+          NPM_TOKEN: ${{ secrets.LIFEOMIC_NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          npm access grant read-only lifeomic:readonly-developers '@lifeomic/eslint-plugin-i18next' --unsafe-perm --user 0
       - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
