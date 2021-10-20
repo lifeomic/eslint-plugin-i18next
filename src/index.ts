@@ -1,6 +1,6 @@
 import { defaultValueRule } from './default-value/default-value';
 
-export default {
+export = {
   rules: {
     'default-value': defaultValueRule,
   },
