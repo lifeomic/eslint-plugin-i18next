@@ -6,6 +6,9 @@
   "repository": "git@github.com:lifeomic/eslint-plugin-i18next.git",
   "author": "LifeOmic <development@lifeomic.com>",
   "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "eslint . && prettier --check .",
     "test": "jest",
