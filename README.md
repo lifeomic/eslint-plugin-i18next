@@ -13,7 +13,7 @@ yarn add -D @lifeomic/eslint-plugin-18next
 module.exports = {
   plugins: ['@lifeomic/i18next'],
   rules: {
-    'i18next/default-value': [
+    '@lifeomic/i18next/default-value': [
       'error',
       {
         /* optional options object */
