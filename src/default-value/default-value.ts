@@ -9,7 +9,8 @@ export const Errors = {
     'Translate function defaultValue must a string property on the second argument',
   missingVariable: (named: string) =>
     `Missing "${named}" in translate variables`,
-  referenceInterpolation: `Detected an interpolated variable. Use a static string instead.`,
+  referenceInterpolation:
+    'Detected an interpolated variable. Use a static string instead.',
 };
 
 const findDefaultValueOnObject = (node: ObjectExpression) => {
