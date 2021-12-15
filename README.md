@@ -30,4 +30,4 @@ module.exports = {
 - `translateFunctionNames`: an array of translation function names to validate. Default is `['t']`
 - `allowKeyOnly`: whether to allow e.g. `t('just-the-key')`. Default is `false`.
 - `allowNestingInterpolation`: Whether to allow e.g. `{ defaultValue: 'some string $t(interpolated)' }`. Default is `false`.
-- `nestingPrefix`: Used when `allowNestingInterpolation` is `false` to identify interpolated variables. Default is `"$t(`.
+- `nestingPrefix`: Used when `allowNestingInterpolation` is `false` to identify interpolated variables. Default is `"$t("`.
