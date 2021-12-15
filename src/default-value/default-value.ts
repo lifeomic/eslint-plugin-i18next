@@ -9,6 +9,7 @@ export const Errors = {
     'Translate function defaultValue must a string property on the second argument',
   missingVariable: (named: string) =>
     `Missing "${named}" in translate variables`,
+  referenceInterpolation: `Detected an interpolated variable. Use a static string instead.`,
 };
 
 const findDefaultValueOnObject = (node: ObjectExpression) => {
@@ -29,12 +30,16 @@ const findDefaultValueOnObject = (node: ObjectExpression) => {
 export type DefaultValueOptions = {
   translateFunctionNames: string[];
   allowKeyOnly: boolean;
+  nestingPrefix: string;
+  allowNestingInterpolation: boolean;
 };
 
 const parseOptions = (context: Rule.RuleContext): DefaultValueOptions => {
   const DEFAULT: DefaultValueOptions = {
     translateFunctionNames: ['t'],
     allowKeyOnly: false,
+    nestingPrefix: '$t(',
+    allowNestingInterpolation: false,
   };
 
   if (!context.options.length) {
@@ -61,6 +66,12 @@ export const defaultValueRule: Rule.RuleModule = {
           allowKeyOnly: {
             type: 'boolean',
           },
+          nestingPrefix: {
+            type: 'string',
+          },
+          allowNestingInterpolation: {
+            type: 'boolean',
+          },
         },
       },
     ],
@@ -78,6 +89,7 @@ export const defaultValueRule: Rule.RuleModule = {
           return;
         }
 
+        // Detect key only scenario.
         if (node.arguments.length < 2) {
           if (options.allowKeyOnly && node.arguments.length === 1) {
             return;
@@ -91,6 +103,7 @@ export const defaultValueRule: Rule.RuleModule = {
 
         const secondArg = node.arguments[1];
 
+        // Enforce that second argument is an object.
         if (secondArg.type !== 'ObjectExpression') {
           context.report({
             node,
@@ -99,6 +112,7 @@ export const defaultValueRule: Rule.RuleModule = {
           return;
         }
 
+        // Enforce that second argument contains a defaultValue.
         const defaultValue = findDefaultValueOnObject(secondArg);
         if (!defaultValue) {
           context.report({
@@ -108,6 +122,7 @@ export const defaultValueRule: Rule.RuleModule = {
           return;
         }
 
+        // Enforce that all referenced variables are provided.
         for (const variable of defaultValue.variableNames) {
           const prop = findPropertyOnNode(secondArg, { named: variable });
           if (!prop) {
@@ -115,7 +130,20 @@ export const defaultValueRule: Rule.RuleModule = {
               node,
               message: Errors.missingVariable(variable),
             });
-            return;
+          }
+        }
+
+        // Check for interpolated references.
+        if (!options.allowNestingInterpolation) {
+          const hasAnInterpolatedVariable = defaultValue.value.includes(
+            options.nestingPrefix,
+          );
+
+          if (hasAnInterpolatedVariable) {
+            context.report({
+              node,
+              message: Errors.referenceInterpolation,
+            });
           }
         }
       },
