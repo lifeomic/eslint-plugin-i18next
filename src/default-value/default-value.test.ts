@@ -46,6 +46,27 @@ tester.run('default-value', defaultValueRule, {
         someOtherFunction()
       `,
     },
+    {
+      code: `
+        t('key', {
+          defaultValue: 'some interpolated $t(var)'
+        })
+      `,
+      options: [{ allowNestingInterpolation: true }],
+    },
+    {
+      code: `
+        t('key', {
+          defaultValue: 'some interpolated $nest(var)'
+        })
+      `,
+      options: [
+        {
+          allowNestingInterpolation: true,
+          nestingPrefix: '$nest(',
+        },
+      ],
+    },
   ],
   invalid: [
     {
@@ -99,6 +120,27 @@ tester.run('default-value', defaultValueRule, {
       `,
       options: [{ translateFunctionNames: ['translate', 't'] }],
       errors: [Errors.missingVariable('long'), Errors.missingVariable('short')],
+    },
+    {
+      code: `
+        t('key', {
+          defaultValue: 'some interpolated $t(var)'
+        })
+      `,
+      errors: [Errors.referenceInterpolation],
+    },
+    {
+      code: `
+        t('key', {
+          defaultValue: 'some interpolated $nest(var)'
+        })
+      `,
+      options: [
+        {
+          nestingPrefix: '$nest(',
+        },
+      ],
+      errors: [Errors.referenceInterpolation],
     },
   ],
 });
