@@ -1,9 +1,9 @@
-This repository contains an ESLint plugin for validating usage of [`18next`](https://github.com/i18next/i18next).
+This repository contains an ESLint plugin for validating usage of [`i18next`](https://github.com/i18next/i18next).
 
 ## Installation
 
 ```
-yarn add -D @lifeomic/eslint-plugin-18next
+yarn add -D @lifeomic/eslint-plugin-i18next
 ```
 
 ## Usage
